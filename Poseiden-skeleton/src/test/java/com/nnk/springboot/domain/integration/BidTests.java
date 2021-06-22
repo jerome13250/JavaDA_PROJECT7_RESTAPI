@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.domain.integration;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RunWith(SpringRunner.class)
-@SpringBootTest
+@SpringBootTest //integration test
 public class BidTests {
 
 	@Autowired

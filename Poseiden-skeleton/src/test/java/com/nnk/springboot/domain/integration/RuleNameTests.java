@@ -1,4 +1,4 @@
-package com.nnk.springboot;
+package com.nnk.springboot.domain.integration;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.repositories.RuleNameRepository;
