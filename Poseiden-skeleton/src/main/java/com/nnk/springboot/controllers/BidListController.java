@@ -34,9 +34,15 @@ public class BidListController {
     }
 
     @PostMapping("/bidList/validate")
-    public String validate(@Valid BidList bid, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return bid list
-        return "bidList/add";
+    public String validate(@Valid BidList bid, BindingResult bindingResult, Model model) {
+        //form data validation
+    	if (bindingResult.hasErrors()) {        	
+            return "/bidList/add";
+        }
+    	//save to db:
+    	bidListService.save(bid);
+    	//redirection do not use the current Model
+        return "redirect:/bidList/list";
     }
 
     @GetMapping("/bidList/update/{id}")

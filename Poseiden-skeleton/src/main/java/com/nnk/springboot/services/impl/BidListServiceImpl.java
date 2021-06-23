@@ -20,4 +20,9 @@ public class BidListServiceImpl implements BidListService {
 		return bidListRepository.findAll();
 	}
 
+	@Override
+	public void save(BidList bidList) {
+		bidListRepository.save(bidList);
+	}
+
 }

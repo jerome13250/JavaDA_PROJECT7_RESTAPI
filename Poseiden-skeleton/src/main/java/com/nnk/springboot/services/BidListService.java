@@ -15,4 +15,5 @@ import com.nnk.springboot.domain.BidList;
 public interface BidListService {
 	
 	public List<BidList> findAll();
+	public void save(BidList bidList);
 }

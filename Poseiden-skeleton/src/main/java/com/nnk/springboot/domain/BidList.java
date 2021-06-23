@@ -9,6 +9,8 @@ import lombok.Setter;
 import javax.persistence.*;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 
@@ -25,9 +27,14 @@ public class BidList {
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	Integer BidListId;
 	
+	@NotBlank
 	String account;
+	@NotBlank
 	String type;
+	@NotNull
+	@Digits(fraction = 0, integer = 22)
 	Double bidQuantity;
+	
 	Double askQuantity;
 	Double bid;
 	Double ask;
