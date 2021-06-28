@@ -9,12 +9,15 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrlPattern;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -42,11 +45,12 @@ class BidListControllerTest {
 	@MockBean
 	private BidListService bidListService;
 	
+	BidList bid1;
 	List<BidList> BidListList;
 	
 	@BeforeEach
 	void initialize() {
-		BidList bid1 = new BidList("Account1", "Type1", 1d);
+		bid1 = new BidList("Account1", "Type1", 1d);
 		bid1.setBidListId(1);
 		BidList bid2 = new BidList("Account2", "Type2", 2d);
 		bid2.setBidListId(2);
@@ -171,4 +175,122 @@ class BidListControllerTest {
 	}
 	
 
+	@WithMockUser //annotation to test spring security with mock user : here we have default values "user","password","USER_ROLE"
+	@Test
+	void GET_showUpdateForm_shouldSucceedWith200() throws Exception {
+		//ARRANGE:
+		when(bidListService.findById(1)).thenReturn(Optional.of(bid1));
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/update/1"))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("bidList/update"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("bidList"))
+		;
+	}
+	
+	@WithMockUser //annotation to test spring security with mock user : here we have default values "user","password","USER_ROLE"
+	@Test
+	void GET_showUpdateForm_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(bidListService.findById(1)).thenReturn(Optional.empty());
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/update/1"))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+	}
+	
+	@WithMockUser
+	@Test
+	void POST_bidListUpdate_shouldSucceedWithRedirection() throws Exception {
+		//ARRANGE:
+		when(bidListService.existsById(1)).thenReturn(Boolean.TRUE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(post("/bidList/update/1")
+				.param("account", "accountOfBid")
+				.param("type", "typeOfBid")
+				.param("bidQuantity", "1000")
+				.with(csrf())
+				)
+		.andDo(print())
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/bidList/list"))
+		;
+		
+		ArgumentCaptor<BidList> bidListCaptor = ArgumentCaptor.forClass(BidList.class);
+		verify(bidListService).save(bidListCaptor.capture());
+		BidList savedBidList = bidListCaptor.getValue();
+		assertEquals(1,savedBidList.getBidListId());
+		assertEquals("accountOfBid",savedBidList.getAccount());
+		assertEquals("typeOfBid",savedBidList.getType());
+		assertEquals(1000d,savedBidList.getBidQuantity());
+	}
+	
+	@WithMockUser
+	@Test
+	void POST_bidListUpdate_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(bidListService.existsById(1)).thenReturn(Boolean.FALSE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(post("/bidList/update/1")
+				.param("account", "accountOfBid")
+				.param("type", "typeOfBid")
+				.param("bidQuantity", "1000")
+				.with(csrf())
+				)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+	}
+	
+	@WithMockUser
+	@Test
+	void POST_bidListUpdate_FormValidationFail_NoDAta_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(bidListService.existsById(1)).thenReturn(Boolean.TRUE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(post("/bidList/update/1")
+				//.param("account", "accountOfBid")
+				//.param("type", "typeOfBid")
+				//.param("bidQuantity", "1000")
+				.with(csrf())
+				)
+		.andExpect(status().isOk()) //return to validate page to display error
+		.andExpect(view().name("bidList/update"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeErrorCount("bidList", 3))
+		.andExpect(model().attributeHasFieldErrorCode("bidList", "account", "NotBlank"))
+		.andExpect(model().attributeHasFieldErrorCode("bidList", "type", "NotBlank"))
+		.andExpect(model().attributeHasFieldErrorCode("bidList", "bidQuantity", "NotNull"))
+		;
+	}
+	
+	
+	@WithMockUser
+	@Test
+	void POST_bidListDelete_shouldSucceedWithRedirection() throws Exception {
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/delete/1")
+				)
+		.andDo(print())
+		.andExpect(status().is3xxRedirection())
+		.andExpect(view().name("redirect:/bidList/list"))
+		;
+		
+		verify(bidListService).deleteById(1);
+		
+	}
+	
 }

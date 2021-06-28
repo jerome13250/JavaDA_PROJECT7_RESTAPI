@@ -44,8 +44,8 @@
 					<td th:text="${b.type}"></td>
 					<td th:text="${b.bidQuantity}"></td>
 					<td> 
-						<button class="btn btn-info" type="submit" name="editid" th:value="${b.BidListId}">Edit</button>
-						<button class="btn btn-danger" type="submit" name="deleteid" th:value="${b.BidListId}">Delete</button>
+						<a th:href="'/bidList/update/' + ${b.BidListId}" class = "btn btn-info">Edit</a>
+						<a th:href="'/bidList/delete/' + ${b.BidListId}" class = "btn btn-danger">Delete</a>
 					</td>
 				</tr>
 			</tbody>
