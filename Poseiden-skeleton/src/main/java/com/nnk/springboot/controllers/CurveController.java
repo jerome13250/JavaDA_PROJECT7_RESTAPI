@@ -1,6 +1,10 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.CurvePoint;
+import java.util.Optional;
+
+import javax.validation.Valid;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -9,16 +13,19 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import javax.validation.Valid;
+import com.nnk.springboot.domain.CurvePoint;
+import com.nnk.springboot.services.CurvePointService;
 
 @Controller
 public class CurveController {
-    // TODO: Inject Curve Point service
+	
+	@Autowired
+	CurvePointService curvePointService;
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model)
     {
-        // TODO: find all Curve Point, add to model
+    	model.addAttribute("listofCurvePoint", curvePointService.findAll());
         return "curvePoint/list";
     }
 
@@ -28,27 +35,60 @@ public class CurveController {
     }
 
     @PostMapping("/curvePoint/validate")
-    public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-        // TODO: check data valid and save to db, after saving return Curve list
-        return "curvePoint/add";
+    public String validate(@Valid CurvePoint curvePoint, BindingResult bindingResult, Model model) {
+   	
+        //form data validation
+    	if (bindingResult.hasErrors()) {        	
+            return "/curvePoint/add";
+        }
+    	//save to db:
+    	curvePointService.save(curvePoint);
+    	//note: redirection do not use the current Model
+        return "redirect:/curvePoint/list";
+
     }
 
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-        // TODO: get CurvePoint by Id and to model then show to the form
+   	
+    	//Get CurvePoint by Id:
+    	Optional<CurvePoint> optCurvePoint = curvePointService.findById(id);
+    	
+    	if (!optCurvePoint.isPresent()) {
+    		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
+    		return "error";
+    	}
+    	
+        model.addAttribute("curvePoint", optCurvePoint.get());
+   	
         return "curvePoint/update";
     }
 
     @PostMapping("/curvePoint/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
-                             BindingResult result, Model model) {
-        // TODO: check required fields, if valid call service to update Curve and return Curve list
+                             BindingResult bindingResult, Model model) {
+
+    	//id validation:
+    	if (!curvePointService.existsById(id)) {
+    		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
+    		return "error";
+    	}
+    	
+    	//curvePoint id is not part of our form, so it is null in "curvePoint", we need to write it with "id" @PathVariable
+    	curvePoint.setId(id);
+    	//form data validation:
+    	if (bindingResult.hasErrors()) {        	
+            return "curvePoint/update"; 
+        }
+
+    	curvePointService.save(curvePoint);
+    	
         return "redirect:/curvePoint/list";
     }
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-        // TODO: Find Curve by Id and delete the Curve, return to Curve list
+    	curvePointService.deleteById(id);
         return "redirect:/curvePoint/list";
     }
 }
