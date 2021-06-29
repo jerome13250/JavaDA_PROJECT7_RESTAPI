@@ -29,8 +29,8 @@
 				<input th:field="*{value}" type = "text" class = "form-control" placeholder = "Value">
 				<span class="text-danger" th:if="${#fields.hasErrors('value')}" th:errors="*{value}"></span>
 			</div>
-			<a href="/bidList/list" class = "btn btn-danger mt-2">Cancel</a>
-			<button type = "submit" class = "btn btn-primary mt-2">Update Curve Point</button>
+			<a href="/curvePoint/list" class = "btn btn-danger mt-2">Cancel</a>
+			<button type = "submit" class = "btn btn-primary mt-2">Update</button>
 		</form>
 	</div>
 

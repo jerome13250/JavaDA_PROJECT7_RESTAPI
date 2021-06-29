@@ -15,10 +15,6 @@
 
 	<div class="row">
 		<form action="#" th:action="@{/curvePoint/validate}" th:object="${curvePoint}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to input the values of CurvePoint, there are 2 buttons: Save data and Cancel to the list CurvePoint
-			 -->
-			 
 			<div class="form-group">
 				<label for = "curveId" class = "col-sm-2 col-form-label mr-0">Curve Id</label>
 				<input th:field="*{curveId}" type = "text" class = "form-control" placeholder = "Curve Id Number">
@@ -36,7 +32,6 @@
 			</div>
 			<a href="/bidList/list" class = "btn btn-danger mt-2">Cancel</a>
 			<button type = "submit" class = "btn btn-primary mt-2">Add Curve Point</button>
-
 		</form>
 	</div>
 

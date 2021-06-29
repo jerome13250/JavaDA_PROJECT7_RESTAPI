@@ -103,7 +103,7 @@ class CurveControllerTest {
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/curvePoint/validate")
-				.param("curveId", "999")
+				.param("curveId", "127")
 				.param("term", "123.4")
 				.param("value", "567.8")
 				.with(csrf())
@@ -116,7 +116,7 @@ class CurveControllerTest {
 		ArgumentCaptor<CurvePoint> curvePointCaptor = ArgumentCaptor.forClass(CurvePoint.class);
 		verify(curvePointService).save(curvePointCaptor.capture());
 		CurvePoint savedCurvePoint = curvePointCaptor.getValue();
-		assertEquals(999,savedCurvePoint.getCurveId());
+		assertEquals(127,savedCurvePoint.getCurveId());
 		assertEquals(123.4,savedCurvePoint.getTerm());
 		assertEquals(567.8,savedCurvePoint.getValue());
 		
@@ -128,7 +128,7 @@ class CurveControllerTest {
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/curvePoint/validate")
-				//.param("curveId", "999")
+				//.param("curveId", "127")
 				//.param("term", "123.4")
 				//.param("value", "567.8")
 				.with(csrf())
@@ -188,7 +188,7 @@ class CurveControllerTest {
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/curvePoint/update/1")
-				.param("curveId", "999")
+				.param("curveId", "127")
 				.param("term", "123.4")
 				.param("value", "567.8")
 				.with(csrf())
@@ -202,7 +202,7 @@ class CurveControllerTest {
 		verify(curvePointService).save(curvePointCaptor.capture());
 		CurvePoint savedCurvePoint = curvePointCaptor.getValue();
 		assertEquals(1,savedCurvePoint.getId());
-		assertEquals(999,savedCurvePoint.getCurveId());
+		assertEquals(127,savedCurvePoint.getCurveId());
 		assertEquals(123.4,savedCurvePoint.getTerm());
 		assertEquals(567.8,savedCurvePoint.getValue());
 	}
@@ -215,7 +215,7 @@ class CurveControllerTest {
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/curvePoint/update/1")
-				.param("curveId", "999")
+				.param("curveId", "127")
 				.param("term", "123.4")
 				.param("value", "567.8")
 				.with(csrf())
@@ -234,7 +234,7 @@ class CurveControllerTest {
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/curvePoint/update/1")
-				//.param("curveId", "999")
+				//.param("curveId", "127")
 				//.param("term", "123.4")
 				//.param("value", "567.8")
 				.with(csrf())

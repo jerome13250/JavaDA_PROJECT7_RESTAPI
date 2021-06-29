@@ -15,9 +15,28 @@
 
 	<div class="row">
 		<form action="#" th:action="@{/rating/update/{id}(id=${rating.id})}" th:object="${rating}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to edit the values of Rating, there are 2 buttons: Update data and Cancel to the Rating
-			 -->
+			<div class="form-group">
+				<label for = "moodysRating" class = "col-sm-2 col-form-label mr-0">Moodys Rating</label>
+				<input th:field="*{moodysRating}" type = "text" class = "form-control" placeholder = "Enter the moodysRating">
+				<span class="text-danger" th:if="${#fields.hasErrors('moodysRating')}" th:errors="*{moodysRating}"></span>
+			</div>
+			<div class="form-group">
+				<label for = "sandPRating" class = "col-sm-2 col-form-label mr-0">Sand P Rating</label>
+				<input th:field="*{sandPRating}" type = "text" class = "form-control" placeholder = "Enter the sandPRating">
+				<span class="text-danger" th:if="${#fields.hasErrors('sandPRating')}" th:errors="*{sandPRating}"></span>
+			</div>
+			<div class="form-group">
+				<label for = "fitchRating" class = "col-sm-2 col-form-label mr-0">Fitch Rating</label>
+				<input th:field="*{fitchRating}" type = "text" class = "form-control" placeholder = "Enter the fitchRating">
+				<span class="text-danger" th:if="${#fields.hasErrors('fitchRating')}" th:errors="*{fitchRating}"></span>
+			</div>
+			<div class="form-group">
+				<label for = "orderNumber" class = "col-sm-2 col-form-label mr-0">Order Number</label>
+				<input th:field="*{orderNumber}" type = "text" class = "form-control" placeholder = "Enter the orderNumber">
+				<span class="text-danger" th:if="${#fields.hasErrors('orderNumber')}" th:errors="*{orderNumber}"></span>
+			</div>
+			<a href="/rating/list" class = "btn btn-danger mt-2">Cancel</a>
+			<button type = "submit" class = "btn btn-primary mt-2">Update</button>
 		</form>
 	</div>
 

@@ -11,6 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 @RequestMapping("app")
 public class LoginController {
 
+	
+	//TODO: NETTOYER TOUT CA
+	
     @Autowired
     private UserRepository userRepository;
 
