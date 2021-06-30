@@ -41,14 +41,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	http.authorizeRequests()
-    	.antMatchers("/registration**", "/js/**","/css/**", "/img/**","/favicon.ico").permitAll()
-    	.anyRequest().authenticated()
+    	.antMatchers("/js/**","/css/**", "/img/**","/favicon.ico").permitAll() //css, js and images allowed for all users
+    	.antMatchers("/", "/user/**").permitAll() //Homepage and user pages are allowed allowed for all users
+    	.anyRequest().authenticated() //all pages are allowed for identified user
     	.and()
-    	.formLogin().permitAll()
+    	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
     	.and()
-    	.logout().invalidateHttpSession(true).clearAuthentication(true)
-            .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).logoutSuccessUrl("/login?logout")
-            .permitAll()
+    	.logout().logoutUrl("/app-logout").logoutSuccessUrl("/").permitAll()
          ;
     }
 
