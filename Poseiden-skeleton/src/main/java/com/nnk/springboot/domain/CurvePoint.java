@@ -14,12 +14,15 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 //Lombok
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor //note: args must be uninitialized final or annotated with lombok.NonNull
 //JPA
 @Entity
 @Table(name = "curvepoint")
@@ -32,19 +35,16 @@ public class CurvePoint {
 	@NotNull
 	@Min(value = -128)
 	@Max(value = 127)
-	Integer curveId;
+	@NonNull Integer curveId;
 	
 	Timestamp asofDate;
+	
 	@NotNull
-	Double term;
+	@NonNull Double term;
+	
 	@NotNull
-	Double value;
+	@NonNull Double value;
+	
 	Timestamp creationDate;
 	
-	public CurvePoint (Integer curveId, Double term, Double value) {
-		this.curveId = curveId;
-		this.term = term;
-		this.value = value;
-	}
-
 }

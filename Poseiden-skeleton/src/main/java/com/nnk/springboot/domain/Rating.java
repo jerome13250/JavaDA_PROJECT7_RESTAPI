@@ -10,6 +10,8 @@ import javax.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -18,6 +20,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor //note: args must be uninitialized final or annotated with lombok.NonNull
 //JPA
 @Entity
 @Table(name = "rating")
@@ -26,26 +29,22 @@ public class Rating {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	Integer id;
+	
 	@NotBlank
 	@Size(max=125)
-	String moodysRating;
+	@NonNull String moodysRating;
+	
 	@NotBlank
 	@Size(max=125)
-	String sandPRating;
+	@NonNull String sandPRating;
+	
 	@NotBlank
 	@Size(max=125)
-	String fitchRating;
+	@NonNull String fitchRating;
+	
 	@NotNull
 	@Min(value = -128)
 	@Max(value = 127)
-	Integer orderNumber;
-
-	public Rating(String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
-		this.moodysRating = moodysRating;
-		this.sandPRating = sandPRating;
-		this.fitchRating = fitchRating;
-		this.orderNumber = orderNumber;
-		
-	}
+	@NonNull Integer orderNumber;
 
 }

@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Required;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
@@ -18,6 +20,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor //note: args must be uninitialized final or annotated with lombok.NonNull
 //JPA
 @Entity
 @Table(name = "bidlist")
@@ -28,12 +31,14 @@ public class BidList {
 	Integer BidListId;
 	
 	@NotBlank
-	String account;
+	@NonNull String account;
+	
 	@NotBlank
-	String type;
+	@NonNull String type;
+	
 	@NotNull
 	@Digits(fraction = 0, integer = 22)
-	Double bidQuantity;
+	@NonNull Double bidQuantity;
 	
 	Double askQuantity;
 	Double bid;
@@ -53,12 +58,5 @@ public class BidList {
 	String dealType;
 	String sourceListId;
 	String side;
-
-
-	public BidList(String account​, String type, Double bidQuantity) {
-		this.account= account​;
-		this.type = type;
-		this.bidQuantity = bidQuantity;
-	}
 
 }
