@@ -14,9 +14,24 @@
 
 	<div class="row">
 		<form action="#" th:action="@{/trade/update/{id}(id=${trade.tradeId})}" th:object="${trade}" method="post" class="form-horizontal" style="width: 100%">
-			<!--
-			TODO: Create a form to edit the values of Trade, there are 2 buttons: Update data and Cancel to the Trade List
-			 -->
+			<div class="form-group">
+				<label for = "account" class = "col-sm-2 col-form-label mr-0">Account</label>
+				<input th:field="*{account}" type = "text" class = "form-control" placeholder = "Enter account">
+				<span class="text-danger" th:if="${#fields.hasErrors('account')}" th:errors="*{account}"></span>
+			</div>
+			<div class="form-group">
+				<label for = "type" class = "col-sm-2 col-form-label mr-0">Type</label>
+				<input th:field="*{type}" type = "text" class = "form-control" placeholder = "Enter type">
+				<span class="text-danger" th:if="${#fields.hasErrors('type')}" th:errors="*{type}"></span>
+			</div>
+			<div class="form-group">
+				<label for = "buyQuantity" class = "col-sm-2 col-form-label mr-0">BuyQuantity</label>
+				<input th:field="*{buyQuantity}" type = "text" class = "form-control" placeholder = "Enter buyQuantity">
+				<span class="text-danger" th:if="${#fields.hasErrors('buyQuantity')}" th:errors="*{buyQuantity}"></span>
+			</div>
+			<a href="/trade/list" class = "btn btn-danger mt-2">Cancel</a>
+			<button type = "submit" class = "btn btn-primary mt-2">Update</button>
+			
 		</form>
 	</div>
 

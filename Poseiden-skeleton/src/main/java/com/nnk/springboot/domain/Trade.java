@@ -2,9 +2,12 @@ package com.nnk.springboot.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -13,6 +16,7 @@ import java.sql.Timestamp;
 @Getter
 @Setter
 @NoArgsConstructor
+@RequiredArgsConstructor //note: args must be uninitialized final or annotated with lombok.NonNull
 //JPA
 @Entity
 @Table(name = "trade")
@@ -21,9 +25,16 @@ public class Trade {
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
 	Integer tradeId;
-	String account;
-	String type;
-	Double buyQuantity;
+	
+	@NotBlank
+	@NonNull String account;
+	
+	@NotBlank
+	@NonNull String type;
+	
+	@NotNull
+	@NonNull Double buyQuantity;
+	
 	Double sellQuantity;
 	Double buyPrice;
 	Double sellPrice;
@@ -41,11 +52,5 @@ public class Trade {
 	String dealType;
 	String sourceListId;
 	String side;
-	
-	public Trade(String account, String type) {
-		super();
-		this.account = account;
-		this.type = type;
-	}
 	
 }
