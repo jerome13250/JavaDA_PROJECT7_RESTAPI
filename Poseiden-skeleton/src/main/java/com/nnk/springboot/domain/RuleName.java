@@ -24,31 +24,31 @@ public class RuleName {
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String name;
+	@NonNull private String name;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String description;
+	@NonNull private String description;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String json;
+	@NonNull private String json;
 	
 	@NotBlank
 	@Size(max=512)
-	@NonNull String template;
+	@NonNull private String template;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String sqlStr;
+	@NonNull private String sqlStr;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String sqlPart;
+	@NonNull private String sqlPart;
 	
 
 }

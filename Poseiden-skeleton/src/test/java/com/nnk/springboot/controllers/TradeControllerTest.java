@@ -254,6 +254,8 @@ class TradeControllerTest {
 	@WithMockUser
 	@Test
 	void POST_tradeDelete_shouldSucceedWithRedirection() throws Exception {
+		//ARRANGE:
+		when(tradeService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/trade/delete/1")
@@ -264,7 +266,24 @@ class TradeControllerTest {
 		;
 		
 		verify(tradeService).deleteById(1);
+	}
+	
+	@WithMockUser
+	@Test
+	void GET_tradeDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(tradeService.existsById(1)).thenReturn(Boolean.FALSE);
 		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/trade/delete/1")
+					)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+		
+		//User must not be deleted
+		verify(tradeService,never()).deleteById(1);
 	}
 	
 }

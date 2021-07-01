@@ -278,7 +278,9 @@ class BidListControllerTest {
 	@WithMockUser
 	@Test
 	void POST_bidListDelete_shouldSucceedWithRedirection() throws Exception {
-		
+		//ARRANGE:
+		when(bidListService.existsById(1)).thenReturn(Boolean.TRUE);
+				
 		//ACT+ASSERT:
 		mockMvc.perform(get("/bidList/delete/1")
 				)
@@ -289,6 +291,24 @@ class BidListControllerTest {
 		
 		verify(bidListService).deleteById(1);
 		
+	}
+	
+	@WithMockUser
+	@Test
+	void GET_bidListDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(bidListService.existsById(1)).thenReturn(Boolean.FALSE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/delete/1")
+					)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+		
+		//User must not be deleted
+		verify(bidListService,never()).deleteById(1);
 	}
 	
 }

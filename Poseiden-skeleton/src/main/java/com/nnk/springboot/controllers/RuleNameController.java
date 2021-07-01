@@ -88,6 +88,13 @@ public class RuleNameController {
 
     @GetMapping("/ruleName/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	Boolean existRuleName = ruleNameService.existsById(id);
+        
+        if(Boolean.FALSE.equals(existRuleName)) {
+        	model.addAttribute("errorMsg", "Sorry, this RuleName id cannot be found:" + id);
+    		return "error";
+        }
+    	
     	ruleNameService.deleteById(id);
         return "redirect:/ruleName/list";
     }

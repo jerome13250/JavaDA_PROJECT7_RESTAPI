@@ -27,23 +27,23 @@ public class Rating {
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String moodysRating;
+	@NonNull private String moodysRating;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String sandPRating;
+	@NonNull private String sandPRating;
 	
 	@NotBlank
 	@Size(max=125)
-	@NonNull String fitchRating;
+	@NonNull private String fitchRating;
 	
 	@NotNull
 	@Min(value = -128)
 	@Max(value = 127)
-	@NonNull Integer orderNumber;
+	@NonNull private Integer orderNumber;
 
 }

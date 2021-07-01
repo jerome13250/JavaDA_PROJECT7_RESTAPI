@@ -88,6 +88,13 @@ public class RatingController {
 
     @GetMapping("/rating/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	Boolean existRating = ratingService.existsById(id);
+        
+        if(Boolean.FALSE.equals(existRating)) {
+        	model.addAttribute("errorMsg", "Sorry, this RuleName id cannot be found:" + id);
+    		return "error";
+        }
+    	
     	ratingService.deleteById(id);
         return "redirect:/rating/list";
     }

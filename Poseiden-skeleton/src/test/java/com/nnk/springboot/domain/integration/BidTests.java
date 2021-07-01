@@ -22,7 +22,7 @@ class BidTests {
 	private BidListRepository bidListRepository;
 
 	@Test
-	public void bidListTest() {
+	void bidListTest() {
 		BidList bid = new BidList("Account Test", "Type Test", 10d);
 
 		// Save

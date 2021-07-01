@@ -253,6 +253,8 @@ class CurveControllerTest {
 	@WithMockUser
 	@Test
 	void POST_curvePointDelete_shouldSucceedWithRedirection() throws Exception {
+		//ARRANGE:
+		when(curvePointService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/curvePoint/delete/1")
@@ -264,6 +266,24 @@ class CurveControllerTest {
 		
 		verify(curvePointService).deleteById(1);
 		
+	}
+	
+	@WithMockUser
+	@Test
+	void GET_curvePointDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(curvePointService.existsById(1)).thenReturn(Boolean.FALSE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/curvePoint/delete/1")
+					)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+		
+		//User must not be deleted
+		verify(curvePointService,never()).deleteById(1);
 	}
 	
 }

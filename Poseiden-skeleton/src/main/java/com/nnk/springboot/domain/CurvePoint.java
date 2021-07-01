@@ -30,21 +30,21 @@ public class CurvePoint {
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-	Integer id;
+	private Integer id;
 	
 	@NotNull
 	@Min(value = -128)
 	@Max(value = 127)
-	@NonNull Integer curveId;
+	@NonNull private Integer curveId;
 	
-	Timestamp asofDate;
-	
-	@NotNull
-	@NonNull Double term;
+	private Timestamp asofDate;
 	
 	@NotNull
-	@NonNull Double value;
+	@NonNull private Double term;
 	
-	Timestamp creationDate;
+	@NotNull
+	@NonNull private Double value;
+	
+	private Timestamp creationDate;
 	
 }

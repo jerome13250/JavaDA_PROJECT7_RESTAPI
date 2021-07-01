@@ -88,6 +88,13 @@ public class TradeController {
 
     @GetMapping("/trade/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	 Boolean existTrade = tradeService.existsById(id);
+         
+         if(Boolean.FALSE.equals(existTrade)) {
+         	model.addAttribute("errorMsg", "Sorry, this Trade id cannot be found:" + id);
+     		return "error";
+         }
+    	
     	tradeService.deleteById(id);
         return "redirect:/trade/list";
     }

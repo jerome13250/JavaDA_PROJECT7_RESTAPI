@@ -262,6 +262,8 @@ class RatingControllerTest {
 	@WithMockUser
 	@Test
 	void POST_ratingDelete_shouldSucceedWithRedirection() throws Exception {
+		//ARRANGE:
+		when(ratingService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/rating/delete/1")
@@ -273,6 +275,24 @@ class RatingControllerTest {
 		
 		verify(ratingService).deleteById(1);
 		
+	}
+	
+	@WithMockUser
+	@Test
+	void GET_ratingDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(ratingService.existsById(1)).thenReturn(Boolean.FALSE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/rating/delete/1")
+					)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+		
+		//User must not be deleted
+		verify(ratingService,never()).deleteById(1);
 	}
 	
 }

@@ -88,6 +88,12 @@ public class CurveController {
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	//id validation:
+    	if (!curvePointService.existsById(id)) {
+    		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
+    		return "error";
+    	}
+    	
     	curvePointService.deleteById(id);
         return "redirect:/curvePoint/list";
     }

@@ -66,7 +66,7 @@ public class BidListController {
                              BindingResult bindingResult, Model model) {
         
     	//id validation:
-    	if (!bidListService.existsById(id)) {
+    	if (Boolean.FALSE.equals(bidListService.existsById(id))) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
     		return "error";
     	}
@@ -85,7 +85,12 @@ public class BidListController {
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteById(@PathVariable("id") Integer id, Model model) {
-        
+    	//id validation:
+    	if (Boolean.FALSE.equals(bidListService.existsById(id))) {
+    		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
+    		return "error";
+    	}
+    	
     	bidListService.deleteById(id);
         return "redirect:/bidList/list";
     }

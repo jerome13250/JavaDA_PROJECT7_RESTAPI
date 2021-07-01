@@ -28,35 +28,35 @@ public class BidList {
 
 	@Id
     @GeneratedValue(strategy= GenerationType.IDENTITY)
-	Integer BidListId;
+	private Integer BidListId;
 	
 	@NotBlank
-	@NonNull String account;
+	@NonNull private String account;
 	
 	@NotBlank
-	@NonNull String type;
+	@NonNull private String type;
 	
 	@NotNull
 	@Digits(fraction = 0, integer = 22)
-	@NonNull Double bidQuantity;
+	@NonNull private Double bidQuantity;
 	
-	Double askQuantity;
-	Double bid;
-	Double ask;
-	String benchmark;
-	Timestamp bidListDate;
-	String commentary;
-	String security;
-	String status;
-	String trader;
-	String book;
-	String creationName;
-	Timestamp creationDate;
-	String revisionName;
-	Timestamp revisionDate;
-	String dealName;
-	String dealType;
-	String sourceListId;
-	String side;
+	private Double askQuantity;
+	private Double bid;
+	private Double ask;
+	private String benchmark;
+	private Timestamp bidListDate;
+	private String commentary;
+	private String security;
+	private String status;
+	private String trader;
+	private String book;
+	private String creationName;
+	private Timestamp creationDate;
+	private String revisionName;
+	private Timestamp revisionDate;
+	private String dealName;
+	private String dealType;
+	private String sourceListId;
+	private String side;
 
 }

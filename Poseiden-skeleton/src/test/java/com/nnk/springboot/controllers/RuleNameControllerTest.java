@@ -280,6 +280,8 @@ class RuleNameControllerTest {
 	@WithMockUser
 	@Test
 	void POST_ruleNameDelete_shouldSucceedWithRedirection() throws Exception {
+		//ARRANGE:
+		when(ruleNameService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/ruleName/delete/1")
@@ -291,6 +293,24 @@ class RuleNameControllerTest {
 		
 		verify(ruleNameService).deleteById(1);
 		
+	}
+	
+	@WithMockUser
+	@Test
+	void GET_ruleNameDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
+		//ARRANGE:
+		when(ruleNameService.existsById(1)).thenReturn(Boolean.FALSE);
+		
+		//ACT+ASSERT:
+		mockMvc.perform(get("/ruleName/delete/1")
+					)
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("error"))
+		.andExpect(model().attributeExists("errorMsg"))
+		;
+		
+		//User must not be deleted
+		verify(ruleNameService,never()).deleteById(1);
 	}
 	
 }
