@@ -13,6 +13,13 @@ public class HomeController
 		return "home";
 	}
 
+	/**
+	 * This is an existing mapping from the original project. It maps "/admin/home" to the same page as "bidList/list".
+     * The difference is that you must have "ADMIN" role to access. 
+     * 
+	 * @param model
+	 * @return view to bidList/list
+	 */
 	@RequestMapping("/admin/home")
 	public String adminHome(Model model)
 	{

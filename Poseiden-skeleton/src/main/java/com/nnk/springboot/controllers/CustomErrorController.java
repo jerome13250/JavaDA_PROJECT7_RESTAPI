@@ -40,7 +40,8 @@ public class CustomErrorController implements ErrorController {
 	@RequestMapping("/error") //note: if we use @GetMapping, errors that occured on POST do not display because "Request method 'POST' not supported" ad we get a blank page...
 	public ModelAndView handleError(HttpServletRequest request, Model model) {
 		
-		Object statusObj = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
+		logger.error("CustomErrorController: @RequestMapping(\"/error\")");
+		
 		Integer status = (Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 		logger.error("Error with status code {} happened", status);
 		
@@ -48,10 +49,10 @@ public class CustomErrorController implements ErrorController {
 		String errorMsg;
 		switch(status){
 	       case 404:
-	    	   errorMsg = "Page not found!";
+	    	   errorMsg = "Error 404, Page not found!";
 	           break;
 	       case 403:
-	    	   errorMsg = "Access denied!";
+	    	   errorMsg = "Error 403, Access denied!";
 	           break;
 	       default:
 	    	   errorMsg = "Sorry an error has happened. Please contact our support!";

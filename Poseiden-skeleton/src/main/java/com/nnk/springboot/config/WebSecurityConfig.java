@@ -42,8 +42,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     	http.authorizeRequests()
     	.antMatchers("/js/**","/css/**", "/img/**","/favicon.ico").permitAll() //css, js and images allowed for all users
-    	.antMatchers("/", "/user/**").permitAll() //Homepage and user pages are allowed allowed for all users
-    	.anyRequest().authenticated() //all pages are allowed for identified user
+    	.antMatchers("/", "/user/**", "/app/login").permitAll() //Homepage, user pages, app/login are allowed for all users
+    	.antMatchers("/bidList/**", "/curvePoint/**", "/rating/**", "/ruleName/**", "/trade/**", "/app/secure/**").authenticated()
+    	.antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN","ADMIN") //admin path reserved to ADMIN
+    	.anyRequest().denyAll()
     	.and()
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
     	.and()
