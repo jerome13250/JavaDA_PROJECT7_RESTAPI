@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,24 +21,30 @@ import com.nnk.springboot.services.RatingService;
 @Controller
 public class RatingController {
 	
+	Logger logger = LoggerFactory.getLogger(RatingController.class);
+	
 	@Autowired
 	RatingService ratingService;
 
     @RequestMapping("/rating/list")
     public String home(Model model)
     {
+    	logger.info("@RequestMapping(\"/rating/list\")");
     	model.addAttribute("listofRating", ratingService.findAll());
         return "rating/list";
     }
 
     @GetMapping("/rating/add")
     public String addBidForm(Rating bid) {
+    	logger.info("@GetMapping(\"/rating/add\")");
         return "rating/add";
     }
 
     @PostMapping("/rating/validate")
     public String validate(@Valid Rating rating, BindingResult bindingResult, Model model) {
-   	
+    	
+    	logger.info("@PostMapping(\"/rating/validate\")");
+    	
         //form data validation
     	if (bindingResult.hasErrors()) {        	
             return "/rating/add";
@@ -51,6 +59,8 @@ public class RatingController {
     @GetMapping("/rating/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
    	
+    	logger.info("@GetMapping(\"/rating/update/{id}\")");
+    	
     	//Get Rating by Id:
     	Optional<Rating> optRating = ratingService.findById(id);
     	
@@ -68,6 +78,8 @@ public class RatingController {
     public String updateBid(@PathVariable("id") Integer id, @Valid Rating rating,
                              BindingResult bindingResult, Model model) {
 
+    	logger.info("@PostMapping(\"/rating/update/{id}\")");
+    	
     	//id validation:
     	if (!ratingService.existsById(id)) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
@@ -88,6 +100,9 @@ public class RatingController {
 
     @GetMapping("/rating/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	
+    	logger.info("@GetMapping(\"/rating/delete/{id}\")");
+    	
     	Boolean existRating = ratingService.existsById(id);
         
         if(Boolean.FALSE.equals(existRating)) {

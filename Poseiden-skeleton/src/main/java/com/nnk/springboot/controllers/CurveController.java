@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,24 +21,30 @@ import com.nnk.springboot.services.CurvePointService;
 @Controller
 public class CurveController {
 	
+	Logger logger = LoggerFactory.getLogger(CurveController.class);
+	
 	@Autowired
 	CurvePointService curvePointService;
 
     @RequestMapping("/curvePoint/list")
     public String home(Model model)
     {
+    	logger.info("@RequestMapping(\"/curvePoint/list\")");
     	model.addAttribute("listofCurvePoint", curvePointService.findAll());
         return "curvePoint/list";
     }
 
     @GetMapping("/curvePoint/add")
     public String addBidForm(CurvePoint bid) {
+    	logger.info("@GetMapping(\"/curvePoint/add\")");
         return "curvePoint/add";
     }
 
     @PostMapping("/curvePoint/validate")
     public String validate(@Valid CurvePoint curvePoint, BindingResult bindingResult, Model model) {
    	
+    	logger.info("@PostMapping(\"/curvePoint/validate\")");
+    	
         //form data validation
     	if (bindingResult.hasErrors()) {        	
             return "/curvePoint/add";
@@ -51,6 +59,8 @@ public class CurveController {
     @GetMapping("/curvePoint/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
    	
+    	logger.info("@GetMapping(\"/curvePoint/update/{id}\")");
+    	
     	//Get CurvePoint by Id:
     	Optional<CurvePoint> optCurvePoint = curvePointService.findById(id);
     	
@@ -68,6 +78,8 @@ public class CurveController {
     public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint,
                              BindingResult bindingResult, Model model) {
 
+    	logger.info("@PostMapping(\"/curvePoint/update/{id}\")");
+    	
     	//id validation:
     	if (!curvePointService.existsById(id)) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
@@ -88,6 +100,9 @@ public class CurveController {
 
     @GetMapping("/curvePoint/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
+    	
+    	logger.info("@GetMapping(\"/curvePoint/delete/{id}\")");
+    	
     	//id validation:
     	if (!curvePointService.existsById(id)) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");

@@ -5,6 +5,8 @@ import java.util.Optional;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -21,6 +23,9 @@ import com.nnk.springboot.repositories.UserRepository;
 
 @Controller
 public class UserController {
+	
+	Logger logger = LoggerFactory.getLogger(UserController.class);
+	
     @Autowired
     private UserRepository userRepository;
     
@@ -34,17 +39,22 @@ public class UserController {
     @RequestMapping("/user/list")
     public String home(Model model)
     {
+    	logger.info("@RequestMapping(\"/user/list\")");
         model.addAttribute("users", userRepository.findAll());
         return "user/list";
     }
 
     @GetMapping("/user/add")
     public String addUser(UserFormDTO userFormDTO) {
+    	logger.info("@GetMapping(\"/user/add\")");
         return "user/add";
     }
 
     @PostMapping("/user/validate")
     public String validate(@Valid UserFormDTO userFormDTO, BindingResult result, Model model) {
+    	
+    	logger.info("@PostMapping(\"/user/validate\")");
+    	
         if (result.hasErrors()) {
         	return "user/add";
         }
@@ -58,6 +68,8 @@ public class UserController {
 
     @GetMapping("/user/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    	
+    	logger.info("@GetMapping(\"/user/update/{id}\")");
     	
         Optional<User> optUser = userRepository.findById(id);
     	
@@ -74,6 +86,9 @@ public class UserController {
     @PostMapping("/user/update/{id}")
     public String updateUser(@PathVariable("id") Integer id, @Valid UserFormDTO userFormDTO,
                              BindingResult result, Model model) {
+    	
+    	logger.info("@PostMapping(\"/user/update/{id}\")");
+    	
     	//id validation:
     	if (!userRepository.existsById(id)) {
     		model.addAttribute("errorMsg", "Sorry, this User id cannot be found:" + id);
@@ -96,7 +111,10 @@ public class UserController {
 
     @GetMapping("/user/delete/{id}")
     public String deleteUser(@PathVariable("id") Integer id, Model model) {
-        Boolean existUser = userRepository.existsById(id);
+        
+    	logger.info("@GetMapping(\"/user/delete/{id}\")");
+    	
+    	Boolean existUser = userRepository.existsById(id);
         
         if(Boolean.FALSE.equals(existUser)) {
         	model.addAttribute("errorMsg", "Sorry, this User id cannot be found:" + id);

@@ -3,6 +3,8 @@ package com.nnk.springboot.controllers;
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,24 +22,29 @@ import javax.validation.Valid;
 @Controller
 public class BidListController {
 
+	Logger logger = LoggerFactory.getLogger(BidListController.class);
+	
 	@Autowired
 	private BidListService bidListService;
 
     @RequestMapping("/bidList/list")
     public String home(Model model)
     {
+    	logger.info("@RequestMapping(\"/bidList/list\")");
         model.addAttribute("listofbidlist", bidListService.findAll());
         return "bidList/list";
     }
 
     @GetMapping("/bidList/add")
     public String addBidForm(BidList bid) {
+    	logger.info("@GetMapping(\"/bidList/add\")");
         return "bidList/add";
     }
 
     @PostMapping("/bidList/validate")
     public String validate(@Valid BidList bid, BindingResult bindingResult, Model model) {
-        //form data validation
+    	logger.info("@PostMapping(\"/bidList/validate\")");
+    	//form data validation
     	if (bindingResult.hasErrors()) {        	
             return "/bidList/add";
         }
@@ -49,6 +56,7 @@ public class BidListController {
 
     @GetMapping("/bidList/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    	logger.info("@GetMapping(\"/bidList/update/{id}\")");
     	//Get Bid by Id:
     	Optional<BidList> optbidlist = bidListService.findById(id);
     	
@@ -64,7 +72,8 @@ public class BidListController {
     @PostMapping("/bidList/update/{id}")
     public String updateBid(@PathVariable("id") Integer id, @Valid BidList bidList,
                              BindingResult bindingResult, Model model) {
-        
+    	logger.info("@PostMapping(\"/bidList/update/{id}\")");
+    	
     	//id validation:
     	if (Boolean.FALSE.equals(bidListService.existsById(id))) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
@@ -85,6 +94,8 @@ public class BidListController {
 
     @GetMapping("/bidList/delete/{id}")
     public String deleteById(@PathVariable("id") Integer id, Model model) {
+    	logger.info("@GetMapping(\"/bidList/delete/{id}\"");
+    	
     	//id validation:
     	if (Boolean.FALSE.equals(bidListService.existsById(id))) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");

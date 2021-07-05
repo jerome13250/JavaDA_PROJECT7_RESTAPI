@@ -43,7 +43,8 @@ public class CustomErrorController implements ErrorController {
 		logger.error("CustomErrorController: @RequestMapping(\"/error\")");
 		
 		Integer status = (Integer)request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
-		logger.error("Error with status code {} happened", status);
+		//logger.error("ERROR_MESSAGE={}",request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
+		logger.error("Error with status code {} happened, ERROR_MESSAGE={}", status, request.getAttribute(RequestDispatcher.ERROR_MESSAGE));
 		
 		
 		String errorMsg;

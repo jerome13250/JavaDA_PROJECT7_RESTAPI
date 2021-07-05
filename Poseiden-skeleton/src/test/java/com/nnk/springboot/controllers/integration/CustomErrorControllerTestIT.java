@@ -20,6 +20,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 
 //Spring Boot autoconfigures an instance of the WebTestClient whenever you select WebEnvironment.RANDOM_PORT 
 //or WebEnvironment.DEFINED_PORT for @SpringBootTest
+//Note: need spring-boot-starter-webflux in pom.xml
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 
 class CustomErrorControllerTestIT {

@@ -4,6 +4,8 @@ import java.util.Optional;
 
 import javax.validation.Valid;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,24 +21,30 @@ import com.nnk.springboot.services.TradeService;
 @Controller
 public class TradeController {
     
+	Logger logger = LoggerFactory.getLogger(TradeController.class);
+	
 	@Autowired
 	TradeService tradeService;
 
     @RequestMapping("/trade/list")
     public String home(Model model)
     {
+    	logger.info("@RequestMapping(\"/trade/list\")");
     	model.addAttribute("listofTrade", tradeService.findAll());
         return "trade/list";
     }
 
     @GetMapping("/trade/add")
     public String addBidForm(Trade bid) {
+    	logger.info("@GetMapping(\"/trade/add\")");
         return "trade/add";
     }
 
     @PostMapping("/trade/validate")
     public String validate(@Valid Trade trade, BindingResult bindingResult, Model model) {
    	
+    	logger.info("@PostMapping(\"/trade/validate\")");
+    	
         //form data validation
     	if (bindingResult.hasErrors()) {        	
             return "/trade/add";
@@ -51,6 +59,8 @@ public class TradeController {
     @GetMapping("/trade/update/{id}")
     public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
    	
+    	logger.info("@GetMapping(\"/trade/update/{id}\")");
+    	
     	//Get Trade by Id:
     	Optional<Trade> optTrade = tradeService.findById(id);
     	
@@ -68,6 +78,8 @@ public class TradeController {
     public String updateBid(@PathVariable("id") Integer id, @Valid Trade trade,
                              BindingResult bindingResult, Model model) {
 
+    	logger.info("@PostMapping(\"/trade/update/{id}\")");
+    	
     	//id validation:
     	if (!tradeService.existsById(id)) {
     		model.addAttribute("errorMsg", "Sorry, this resource cannot be found.");
@@ -88,7 +100,10 @@ public class TradeController {
 
     @GetMapping("/trade/delete/{id}")
     public String deleteBid(@PathVariable("id") Integer id, Model model) {
-    	 Boolean existTrade = tradeService.existsById(id);
+    	 
+    	logger.info("@GetMapping(\"/trade/delete/{id}\")");
+    	
+    	Boolean existTrade = tradeService.existsById(id);
          
          if(Boolean.FALSE.equals(existTrade)) {
          	model.addAttribute("errorMsg", "Sorry, this Trade id cannot be found:" + id);
