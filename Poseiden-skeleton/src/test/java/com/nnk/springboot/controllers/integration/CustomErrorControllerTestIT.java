@@ -1,42 +1,62 @@
 package com.nnk.springboot.controllers.integration;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.web.context.WebApplicationContext;
 
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-
-
-/**
- * Unit testing of a custom ErrorController with MockMvc is unfortunately not supported.
- * Spring Boot Team recommendation for tests to be sure that error handling is working correctly, is to use an embedded
- * container and test with WebTestClient, RestAssured, or TestRestTemplate.
- * https://stackoverflow.com/questions/52925700/cannot-properly-test-errorcontroller-spring-boot
- *
- * @author jerome
- *
- */
-
-//Spring Boot autoconfigures an instance of the WebTestClient whenever you select WebEnvironment.RANDOM_PORT 
-//or WebEnvironment.DEFINED_PORT for @SpringBootTest
-//Note: need spring-boot-starter-webflux in pom.xml
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
+@AutoConfigureMockMvc
+class CustomErrorControllerTestIT{
 
-class CustomErrorControllerTestIT {
-
+	Logger logger = LoggerFactory.getLogger(CustomErrorControllerTestIT.class);
+	
 	@Autowired
-	private WebTestClient webTestClient;
+    private MockMvc mvc;
+	
+	@Autowired
+    private WebApplicationContext context;
+	
+	//When using @SpringBootTest annotation to test controllers with Spring Security, it's necessary to explicitly
+	//configure the filter chain when setting up MockMvc:
+	@BeforeEach
+	public void setup() {
+	     mvc = MockMvcBuilders
+	    .webAppContextSetup(context)
+	    .apply(springSecurity())
+	    .build();
+	}
+	
 	
 	@Test
-	void GET_error_shouldSucceed_404() {
-	  this.webTestClient
-	    .get()
-	    .uri("/user/pageNotExist") //user/** is allowed for all in Security config
-	    //.header(CONTENT_TYPE, APPLICATION_JSON_VALUE)
-	    .exchange()
-	    .expectStatus().is4xxClientError();
+	void GET_userPageNotExist_shouldError_404NotFound() throws Exception {
+		 mvc.perform(get("/user/pageNotExist")) //user/** is allowed for all in Security config
+				 .andExpect(status().isNotFound())
+	    ;
+	
 	}
+	
+	@WithMockUser // default authority USER
+	@Test
+	void GET_adminHome_shouldError_403Forbidden() throws Exception {
+		mvc.perform(get("/admin/home"))
+		 .andExpect(status().isForbidden())
+		 ;
+
+	}
+	
 	
 
 }

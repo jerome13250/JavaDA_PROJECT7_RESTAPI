@@ -63,8 +63,9 @@ class BidListControllerTest {
 	
 	@Test
 	void givenNotLogged_shouldBeRedirectedToLogin() throws Exception {
+		//ACT+ASSERT
 		mockMvc.perform(get("/bidList/list"))
-		.andExpect(status().isFound())
+		.andExpect(status().isFound()) //FOUND: status=302
 		;
 	}
 

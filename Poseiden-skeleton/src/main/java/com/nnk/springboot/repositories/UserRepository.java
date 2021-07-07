@@ -10,5 +10,12 @@ import org.springframework.data.repository.query.Param;
 public interface UserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 	
 	User findByUsername(String username);
+	
+	@Query("SELECT CASE "
+			+ "WHEN COUNT(u) > 0 THEN true"
+			+ " ELSE false END "
+			+ "FROM User u "
+			+ "WHERE u.username = :username")
+    public Boolean existsByUsername(@Param("username") String email);
 
 }

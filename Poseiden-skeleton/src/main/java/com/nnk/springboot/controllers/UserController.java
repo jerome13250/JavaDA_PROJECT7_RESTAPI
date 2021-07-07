@@ -19,7 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.dto.UserFormDTO;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.services.UserService;
+
 
 @Controller
 public class UserController {
@@ -27,7 +28,7 @@ public class UserController {
 	Logger logger = LoggerFactory.getLogger(UserController.class);
 	
     @Autowired
-    private UserRepository userRepository;
+    private UserService userService;
     
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -40,7 +41,7 @@ public class UserController {
     public String home(Model model)
     {
     	logger.info("@RequestMapping(\"/user/list\")");
-        model.addAttribute("users", userRepository.findAll());
+        model.addAttribute("users", userService.findAll());
         return "user/list";
     }
 
@@ -51,18 +52,24 @@ public class UserController {
     }
 
     @PostMapping("/user/validate")
-    public String validate(@Valid UserFormDTO userFormDTO, BindingResult result, Model model) {
+    public String validate(@Valid UserFormDTO userFormDTO, BindingResult bindingResult, Model model) {
     	
     	logger.info("@PostMapping(\"/user/validate\")");
     	
-        if (result.hasErrors()) {
+        if (bindingResult.hasErrors()) {
         	return "user/add";
+        }
+        
+        //check username already exists:
+        if ( Boolean.TRUE.equals(userService.existsByUsername(userFormDTO.getUsername())) ) {
+        	bindingResult.rejectValue("username", "", "This username already exists");
+            return "user/add";
         }
         
         User user = convertToEntity(userFormDTO);
         
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/user/list";
     }
 
@@ -71,7 +78,7 @@ public class UserController {
     	
     	logger.info("@GetMapping(\"/user/update/{id}\")");
     	
-        Optional<User> optUser = userRepository.findById(id);
+        Optional<User> optUser = userService.findById(id);
     	
     	if (!optUser.isPresent()) {
     		model.addAttribute("errorMsg", "Sorry, this User id cannot be found:" + id);
@@ -90,7 +97,7 @@ public class UserController {
     	logger.info("@PostMapping(\"/user/update/{id}\")");
     	
     	//id validation:
-    	if (!userRepository.existsById(id)) {
+    	if (Boolean.FALSE.equals(userService.existsById(id))) {
     		model.addAttribute("errorMsg", "Sorry, this User id cannot be found:" + id);
     		return "error";
     	}
@@ -105,7 +112,7 @@ public class UserController {
         User user = convertToEntity(userFormDTO);
         
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-        userRepository.save(user);
+        userService.save(user);
         return "redirect:/user/list";
     }
 
@@ -114,14 +121,14 @@ public class UserController {
         
     	logger.info("@GetMapping(\"/user/delete/{id}\")");
     	
-    	Boolean existUser = userRepository.existsById(id);
+    	Boolean existUser = userService.existsById(id);
         
         if(Boolean.FALSE.equals(existUser)) {
         	model.addAttribute("errorMsg", "Sorry, this User id cannot be found:" + id);
     		return "error";
         }
         
-        userRepository.deleteById(id);
+        userService.deleteById(id);
         return "redirect:/user/list";
     }
     

@@ -1,5 +1,8 @@
 package com.nnk.springboot.services.impl;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,4 +21,35 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByUsername(username);
 	}
 
+	@Override
+	public Boolean existsByUsername(String username) {
+		return userRepository.existsByUsername(username);
+	}
+	
+	@Override
+	public List<User> findAll() {
+		return userRepository.findAll();
+	}
+
+	@Override
+	public void save(User user) {
+		userRepository.save(user);
+	}
+
+	@Override
+	public Optional<User> findById(int id) {
+		return userRepository.findById(id);
+	}
+
+	@Override
+	public Boolean existsById(int id) {
+		return userRepository.existsById(id);
+	}
+
+	@Override
+	public void deleteById(int id) {
+		userRepository.deleteById(id);
+		
+	}
+	
 }

@@ -7,12 +7,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import com.nnk.springboot.repositories.UserRepository;
 import com.nnk.springboot.testconfig.SpringWebTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
@@ -33,7 +31,11 @@ class HomeControllerTest {
 		;
 	}
 	
-	@WithMockUser(roles="ADMIN")
+	//@WithMockUser : If we don't specify the username or role, the default username is user and default role is ROLE_USER.
+	//Note that it isn't necessary to add the ROLE_ prefix on "role", Spring Security will add that prefix automatically.
+	//If we don't want to have that prefix, we can consider using "authority" instead of "role": 
+	//https://www.baeldung.com/spring-security-method-security
+	@WithMockUser(authorities="ADMIN")
 	@Test
 	void GET_adminHome_shouldSucceed() throws Exception {
 		mockMvc.perform(get("/admin/home"))

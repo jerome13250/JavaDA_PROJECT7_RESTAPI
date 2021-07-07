@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 /**
  * Spring Security configuration :  
@@ -44,7 +43,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.antMatchers("/js/**","/css/**", "/img/**","/favicon.ico").permitAll() //css, js and images allowed for all users
     	.antMatchers("/", "/user/**", "/app/login").permitAll() //Homepage, user pages, app/login are allowed for all users
     	.antMatchers("/bidList/**", "/curvePoint/**", "/rating/**", "/ruleName/**", "/trade/**", "/app/secure/**").authenticated()
-    	.antMatchers("/admin/**").hasAnyAuthority("ROLE_ADMIN","ADMIN") //admin path reserved to ADMIN
+    	.antMatchers("/admin/**").hasAnyAuthority("ADMIN") //admin path reserved to ADMIN
     	.anyRequest().denyAll()
     	.and()
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")

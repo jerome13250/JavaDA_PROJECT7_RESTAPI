@@ -32,7 +32,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.dto.UserFormDTO;
-import com.nnk.springboot.repositories.UserRepository;
+import com.nnk.springboot.services.UserService;
 import com.nnk.springboot.testconfig.SpringWebTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
@@ -45,7 +45,7 @@ class UserControllerTest {
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
-	private UserRepository userRepository;
+	private UserService userService;
 	@MockBean
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	@MockBean
@@ -89,6 +89,7 @@ class UserControllerTest {
 	@Test
 	void POST_userValidate_shouldSucceedWithRedirection() throws Exception {
 		//ARRANGE:
+		when(userService.existsByUsername("username_999")).thenReturn(Boolean.FALSE);
 		when(bCryptPasswordEncoder.encode(password)).thenReturn(password_encoded);
 		User user = new User(999, "username_999", password, "fullname_999", "USER");
 		user.setId(null);
@@ -117,7 +118,7 @@ class UserControllerTest {
 		assertEquals("USER",mappedUserFormDTO.getRole());
 		
 		//direct access to user since it is provided in ARRANGE 
-		verify(userRepository).save(user);
+		verify(userService).save(user);
 		assertNull(user.getId());
 		assertEquals("username_999",user.getUsername());
 		assertEquals(password_encoded,user.getPassword());
@@ -147,7 +148,7 @@ class UserControllerTest {
 		;
 		
 		//User must not be saved
-		verify(userRepository,never()).save(any(User.class));
+		verify(userService,never()).save(any(User.class));
 		
 	}
 	
@@ -170,7 +171,7 @@ class UserControllerTest {
 		;
 		
 		//User must not be saved
-		verify(userRepository,never()).save(any(User.class));
+		verify(userService,never()).save(any(User.class));
 	}
 	
 	@Test
@@ -192,13 +193,38 @@ class UserControllerTest {
 		;
 		
 		//User must not be saved
-		verify(userRepository,never()).save(any(User.class));
+		verify(userService,never()).save(any(User.class));
 	}
+	
+	@Test
+	void POST_userValidate_usernameAlreadyExists() throws Exception {
+		//ARRANGE:
+		when(userService.existsByUsername("username_999")).thenReturn(Boolean.TRUE);
+				
+		//ACT+ASSERT:
+		mockMvc.perform(post("/user/validate")
+				.param("username", "username_999")
+				.param("password", password)
+				.param("fullname", "fullname_999")
+				.param("role", "USER")
+				.with(csrf())
+				)
+		.andExpect(status().isOk()) //return to validate page to display error
+		.andExpect(view().name("user/add"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeErrorCount("userFormDTO", 1))
+		.andExpect(model().attributeHasFieldErrorCode("userFormDTO", "username", ""))
+		;
+		
+		//User must not be saved
+		verify(userService,never()).save(any(User.class));
+	}
+	
 	
 	@Test
 	void GET_showUpdateForm_shouldSucceedWith200() throws Exception {
 		//ARRANGE:
-		when(userRepository.findById(1)).thenReturn(Optional.of(user1));
+		when(userService.findById(1)).thenReturn(Optional.of(user1));
 		UserFormDTO userFormDTO = new UserFormDTO(1, "username1", "password1", "fullname1", "USER");
 		when(modelMapper.map(any(User.class), eq(UserFormDTO.class))).thenReturn(userFormDTO);
 		
@@ -215,7 +241,7 @@ class UserControllerTest {
 	@Test
 	void GET_showUpdateForm_shouldReturnErrorPage() throws Exception {
 		//ARRANGE:
-		when(userRepository.findById(1)).thenReturn(Optional.empty());
+		when(userService.findById(1)).thenReturn(Optional.empty());
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/user/update/1"))
@@ -230,7 +256,7 @@ class UserControllerTest {
 	@Test
 	void POST_userUpdate_shouldSucceedWithRedirection() throws Exception {
 		//ARRANGE:
-		when(userRepository.existsById(1)).thenReturn(Boolean.TRUE);
+		when(userService.existsById(1)).thenReturn(Boolean.TRUE);
 		when(bCryptPasswordEncoder.encode(password)).thenReturn(password_encoded);
 		User user = new User(1, "username_999", password, "fullname_999", "USER");
 		when(modelMapper.map(any(UserFormDTO.class), eq(User.class))).thenReturn(user);
@@ -258,7 +284,7 @@ class UserControllerTest {
 		assertEquals("USER",mappedUserFormDTO.getRole());
 		
 		//direct access to user since it is provided in ARRANGE 
-		verify(userRepository).save(user);
+		verify(userService).save(user);
 		assertEquals(1,user.getId());
 		assertEquals("username_999",user.getUsername());
 		assertEquals(password_encoded,user.getPassword());
@@ -269,7 +295,7 @@ class UserControllerTest {
 	@Test
 	void POST_userUpdate_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
 		//ARRANGE:
-		when(userRepository.existsById(1)).thenReturn(Boolean.FALSE);
+		when(userService.existsById(1)).thenReturn(Boolean.FALSE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/user/update/1")
@@ -285,13 +311,13 @@ class UserControllerTest {
 		;
 		
 		//User must not be saved
-		verify(userRepository,never()).save(any(User.class));
+		verify(userService,never()).save(any(User.class));
 	}
 	
 	@Test
 	void POST_userUpdate_FormValidationFail_NoDAta_shouldReturnToUpdatePage() throws Exception {
 		//ARRANGE:
-		when(userRepository.existsById(1)).thenReturn(Boolean.TRUE);
+		when(userService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(post("/user/update/1")
@@ -312,13 +338,13 @@ class UserControllerTest {
 		;
 		
 		//User must not be saved
-		verify(userRepository,never()).save(any(User.class));
+		verify(userService,never()).save(any(User.class));
 	}
 	
 	@Test
 	void POST_userDelete_shouldSucceedWithRedirection() throws Exception {
 		//ARRANGE:
-		when(userRepository.existsById(1)).thenReturn(Boolean.TRUE);
+		when(userService.existsById(1)).thenReturn(Boolean.TRUE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/user/delete/1")
@@ -328,13 +354,13 @@ class UserControllerTest {
 		.andExpect(view().name("redirect:/user/list"))
 		;
 		
-		verify(userRepository).deleteById(1);
+		verify(userService).deleteById(1);
 	}
 	
 	@Test
 	void GET_userDelete_IdDoesNotExist_shouldReturnErrorPage() throws Exception {
 		//ARRANGE:
-		when(userRepository.existsById(1)).thenReturn(Boolean.FALSE);
+		when(userService.existsById(1)).thenReturn(Boolean.FALSE);
 		
 		//ACT+ASSERT:
 		mockMvc.perform(get("/user/delete/1")
@@ -345,7 +371,7 @@ class UserControllerTest {
 		;
 		
 		//User must not be deleted
-		verify(userRepository,never()).deleteById(1);
+		verify(userService,never()).deleteById(1);
 	}
 	
 	
