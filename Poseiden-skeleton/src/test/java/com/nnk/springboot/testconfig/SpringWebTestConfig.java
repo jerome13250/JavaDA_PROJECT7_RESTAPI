@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
 
@@ -26,5 +27,15 @@ public class SpringWebTestConfig {
 				));
 	}
 	
+	
+	//TODO:
+	//When we add .oauth2Login() to WebSecurityConfig.configure, we can't execute any Controller tests (unit or integration) because of :
+	//NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' available
+	//
+	
+	@Bean
+	public ClientRegistrationRepository clientRegistrationRepository() {
+		
+	}
 	
 }

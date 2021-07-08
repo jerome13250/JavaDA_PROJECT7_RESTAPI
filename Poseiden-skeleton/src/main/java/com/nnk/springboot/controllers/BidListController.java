@@ -31,15 +31,15 @@ public class BidListController {
 	@Autowired
 	private BidListService bidListService;
 	
-	@Autowired
-	PrincipalDataExtractor principalDataExtractor;
+	//@Autowired
+	//PrincipalDataExtractor principalDataExtractor;
 	
 
     @RequestMapping("/bidList/list")
     public String home(Model model, Principal principal)
     {
     	
-    	logger.info("User Name extracted : {}", principalDataExtractor.getUserName(principal));
+    	//logger.info("User Name extracted : {}", principalDataExtractor.getUserName(principal));
     	
     	
     	logger.info("@RequestMapping(\"/bidList/list\")");

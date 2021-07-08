@@ -14,6 +14,12 @@ import org.springframework.stereotype.Service;
 
 import com.nnk.springboot.services.PrincipalDataExtractor;
 
+/**
+ * NOTE THAT THIS IS NOT USED ANYMORE.
+ * Kept just for info.
+ * @author jerome
+ *
+ */
 @Service
 public class PrincipalDataExtractorImpl implements PrincipalDataExtractor {
 

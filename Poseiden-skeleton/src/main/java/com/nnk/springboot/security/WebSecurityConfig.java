@@ -11,6 +11,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.nnk.springboot.security.oauth.CustomOAuth2UserService;
+
 /**
  * Spring Security configuration :  
  * <a href="https://www.marcobehler.com/guides/spring-security#_how_to_configure_spring_security_websecurityconfigureradapter">
@@ -27,6 +29,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
     @Autowired
     private UserDetailsService userDetailsService;
+    
+    /**
+     * Needed to configure Spring Security for OAuth2 Authentication
+     * 
+     */
+    @Autowired
+    private CustomOAuth2UserService customOAuth2UserService;
 
     /**
      * Spring Security needs to have a PasswordEncoder defined.
@@ -49,6 +58,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
     	.and()
     	.oauth2Login()
+			.userInfoEndpoint()
+				.userService(customOAuth2UserService)
+			.and()
+				.defaultSuccessUrl("/bidList/list")
     	.and()
     	.logout().logoutUrl("/app-logout").logoutSuccessUrl("/").permitAll()
          ;
