@@ -1,4 +1,4 @@
-package com.nnk.springboot.services.impl;
+package com.nnk.springboot.security.userdetails;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;

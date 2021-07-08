@@ -1,4 +1,4 @@
-package com.nnk.springboot.config;
+package com.nnk.springboot.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -47,6 +47,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.anyRequest().denyAll()
     	.and()
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
+    	.and()
+    	.oauth2Login()
     	.and()
     	.logout().logoutUrl("/app-logout").logoutSuccessUrl("/").permitAll()
          ;
