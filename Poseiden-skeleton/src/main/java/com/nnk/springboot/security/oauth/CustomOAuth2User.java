@@ -8,9 +8,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
-import com.nnk.springboot.controllers.BidListController;
-
-
 /**
  * The objective of this class is to unify the access to the "username" in the different types of connection tokens, this allows an easier display of username in 
  * Thymeleaf with : sec:authentication="name" 
@@ -55,8 +52,8 @@ public class CustomOAuth2User implements OAuth2User {
  
     @Override
     public String getName() {
-    	//In the original code it was "name" but since it can be null, i replace by "login"
-    	//Otherwise with "name" : java.lang.IllegalArgumentException: principalName cannot be empty
+    	//In the original code (from www.codejava.net) it was "name" but it can be null in github profile, so i replace by "login" attribute.
+    	//Otherwise with a null "name" we get : java.lang.IllegalArgumentException: principalName cannot be empty
         return oauth2User.getAttribute("login");
     }
  

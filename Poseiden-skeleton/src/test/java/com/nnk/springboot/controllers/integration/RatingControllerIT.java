@@ -24,6 +24,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,6 +32,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.services.RatingService;
+import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 
 /**
@@ -42,6 +44,7 @@ import com.nnk.springboot.services.RatingService;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(SpringWebIntegrationTestConfig.class)
 class RatingControllerIT{
 
 	Logger logger = LoggerFactory.getLogger(RatingControllerIT.class);

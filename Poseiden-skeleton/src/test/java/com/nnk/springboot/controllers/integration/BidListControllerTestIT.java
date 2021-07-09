@@ -1,13 +1,16 @@
 package com.nnk.springboot.controllers.integration;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -24,6 +27,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,6 +36,8 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
+import com.nnk.springboot.testconfig.OAuthUtils;
+import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 
 /**
@@ -42,6 +49,7 @@ import com.nnk.springboot.services.BidListService;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
+@Import(SpringWebIntegrationTestConfig.class)
 class BidListControllerTestIT{
 
 	Logger logger = LoggerFactory.getLogger(BidListControllerTestIT.class);
@@ -57,6 +65,8 @@ class BidListControllerTestIT{
 	
 	BidList bid1;
 	
+	private OAuth2User oAuth2User;
+	
 	//When using @SpringBootTest annotation to test controllers with Spring Security, it's necessary to explicitly
 	//configure the filter chain when setting up MockMvc:
 	@BeforeEach
@@ -67,6 +77,9 @@ class BidListControllerTestIT{
 	    .build();
 	     
 	     bid1 = new BidList("Account1", "Type1", 1d);
+	     
+	     oAuth2User = OAuthUtils.createOAuth2User(
+	                "Jerome L", "jerome13250@example.com");
 	   
 	}
 	
@@ -82,6 +95,25 @@ class BidListControllerTestIT{
 		.andExpect(model().attributeExists("listofbidlist"))
 		;
 	}
+	
+	/**
+	 * This test is for oauth2 user test.
+	 * @throws Exception
+	 */
+	@Test
+	void givenOauth2User_shouldSucceedWith200() throws Exception {
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/list")
+				.with(oauth2Login().oauth2User(oAuth2User)))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("bidList/list"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("listofbidlist"))
+		.andExpect(content().string(containsString("Jerome L")));
+		;
+	}
+	
 	
 	@Transactional // rollback will be done automatically
 	@WithMockUser //we have default values "user","password","USER_ROLE"

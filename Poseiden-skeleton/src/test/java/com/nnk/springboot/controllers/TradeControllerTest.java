@@ -29,12 +29,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.nnk.springboot.domain.Trade;
 import com.nnk.springboot.services.TradeService;
-import com.nnk.springboot.testconfig.SpringWebTestConfig;
+import com.nnk.springboot.testconfig.SpringWebUnitTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
 @WebMvcTest(controllers = TradeController.class) 
 //Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest :
-@Import(SpringWebTestConfig.class)
+@Import(SpringWebUnitTestConfig.class)
 
 class TradeControllerTest {
 

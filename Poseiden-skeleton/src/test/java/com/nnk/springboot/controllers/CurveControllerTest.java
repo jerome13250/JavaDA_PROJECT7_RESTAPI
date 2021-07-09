@@ -29,12 +29,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.services.CurvePointService;
-import com.nnk.springboot.testconfig.SpringWebTestConfig;
+import com.nnk.springboot.testconfig.SpringWebUnitTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
 @WebMvcTest(controllers = CurveController.class) 
 //Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest :
-@Import(SpringWebTestConfig.class)
+@Import(SpringWebUnitTestConfig.class)
 
 class CurveControllerTest {
 

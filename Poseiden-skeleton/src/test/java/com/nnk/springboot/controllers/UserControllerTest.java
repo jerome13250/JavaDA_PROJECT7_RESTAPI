@@ -33,12 +33,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import com.nnk.springboot.domain.User;
 import com.nnk.springboot.domain.dto.UserFormDTO;
 import com.nnk.springboot.services.UserService;
-import com.nnk.springboot.testconfig.SpringWebTestConfig;
+import com.nnk.springboot.testconfig.SpringWebUnitTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
 @WebMvcTest(controllers = UserController.class) 
 //Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest :
-@Import(SpringWebTestConfig.class)
+@Import(SpringWebUnitTestConfig.class)
 
 class UserControllerTest {
 

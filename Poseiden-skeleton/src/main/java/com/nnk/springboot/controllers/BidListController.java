@@ -1,14 +1,13 @@
 package com.nnk.springboot.controllers;
 
-import com.nnk.springboot.domain.BidList;
-import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.services.PrincipalDataExtractor;
+import java.security.Principal;
+import java.util.Optional;
+
+import javax.validation.Valid;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,10 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.security.Principal;
-import java.util.Optional;
-
-import javax.validation.Valid;
+import com.nnk.springboot.domain.BidList;
+import com.nnk.springboot.services.BidListService;
 
 
 @Controller
@@ -31,18 +28,10 @@ public class BidListController {
 	@Autowired
 	private BidListService bidListService;
 	
-	//@Autowired
-	//PrincipalDataExtractor principalDataExtractor;
-	
-
-    @RequestMapping("/bidList/list")
+	@RequestMapping("/bidList/list")
     public String home(Model model, Principal principal)
     {
-    	
-    	//logger.info("User Name extracted : {}", principalDataExtractor.getUserName(principal));
-    	
-    	
-    	logger.info("@RequestMapping(\"/bidList/list\")");
+       	logger.info("@RequestMapping(\"/bidList/list\")");
         model.addAttribute("listofbidlist", bidListService.findAll());
         return "bidList/list";
     }

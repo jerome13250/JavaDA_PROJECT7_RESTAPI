@@ -29,12 +29,12 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import com.nnk.springboot.domain.RuleName;
 import com.nnk.springboot.services.RuleNameService;
-import com.nnk.springboot.testconfig.SpringWebTestConfig;
+import com.nnk.springboot.testconfig.SpringWebUnitTestConfig;
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
 @WebMvcTest(controllers = RuleNameController.class) 
 //Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest :
-@Import(SpringWebTestConfig.class)
+@Import(SpringWebUnitTestConfig.class)
 
 class RuleNameControllerTest {
 

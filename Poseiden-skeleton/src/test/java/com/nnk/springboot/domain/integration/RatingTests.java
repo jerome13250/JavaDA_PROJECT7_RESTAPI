@@ -2,10 +2,12 @@ package com.nnk.springboot.domain.integration;
 
 import com.nnk.springboot.domain.Rating;
 import com.nnk.springboot.repositories.RatingRepository;
+import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @SpringBootTest
+@Import(SpringWebIntegrationTestConfig.class)
 public class RatingTests {
 
 	@Autowired

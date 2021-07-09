@@ -2,11 +2,14 @@ package com.nnk.springboot.domain.integration;
 
 import com.nnk.springboot.domain.CurvePoint;
 import com.nnk.springboot.repositories.CurvePointRepository;
+import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -16,6 +19,7 @@ import java.util.Optional;
 
 
 @SpringBootTest
+@Import(SpringWebIntegrationTestConfig.class)
 public class CurvePointTests {
 
 	@Autowired
@@ -28,7 +32,7 @@ public class CurvePointTests {
 		// Save
 		curvePoint = curvePointRepository.save(curvePoint);
 		assertNotNull(curvePoint.getId());
-		assertTrue(curvePoint.getCurveId() == 10);
+		assertEquals(10,curvePoint.getCurveId());
 
 		// Update
 		curvePoint.setCurveId(20);

@@ -1,14 +1,17 @@
 package com.nnk.springboot.controllers;
 
+import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.oauth2Login;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
@@ -20,24 +23,32 @@ import java.util.Optional;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.services.BidListService;
-import com.nnk.springboot.testconfig.SpringWebTestConfig;
+import com.nnk.springboot.testconfig.OAuthUtils;
+import com.nnk.springboot.testconfig.SpringWebUnitTestConfig;
+
 
 //@WebMvcTest tells Spring Boot to instantiate only the web layer and not the entire context
 @WebMvcTest(controllers = BidListController.class) 
-//Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest :
-@Import(SpringWebTestConfig.class)
+//We create SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest
+//This way we create a UserDetailsService, a mock CustomOAuth2UserService and a mock ClientRegistrationRepository
+@Import(SpringWebUnitTestConfig.class)
 
 class BidListControllerTest {
 
+	Logger logger = LoggerFactory.getLogger(BidListControllerTest.class);
+	
 	@Autowired
 	private MockMvc mockMvc;
 	@MockBean
@@ -45,6 +56,8 @@ class BidListControllerTest {
 	
 	BidList bid1;
 	List<BidList> BidListList;
+	
+	private OAuth2User oAuth2User;
 	
 	@BeforeEach
 	void initialize() {
@@ -58,6 +71,9 @@ class BidListControllerTest {
 		BidListList.add(bid1);
 		BidListList.add(bid2);
 		BidListList.add(bid3);		
+		
+		oAuth2User = OAuthUtils.createOAuth2User(
+                "Jerome L", "jerome13250@example.com");
 		
 	}
 	
@@ -83,7 +99,27 @@ class BidListControllerTest {
 		.andExpect(model().attributeExists("listofbidlist"))
 		;
 	}
-
+	
+	/**
+	 * This test is for oauth2 user test.
+	 * @throws Exception
+	 */
+	@Test
+	void givenOauth2User_shouldSucceedWith200() throws Exception {
+		//ARRANGE:
+		when(bidListService.findAll()).thenReturn(BidListList);
+		//ACT+ASSERT:
+		mockMvc.perform(get("/bidList/list")
+				.with(oauth2Login().oauth2User(oAuth2User)))
+		.andDo(print())
+		.andExpect(status().is2xxSuccessful())
+		.andExpect(view().name("bidList/list"))
+		.andExpect(model().size(1))
+		.andExpect(model().attributeExists("listofbidlist"))
+		.andExpect(content().string(containsString("Jerome L")));
+		;
+	}
+	
 	@WithMockUser //annotation to test spring security with mock user : here we have default values "user","password","USER_ROLE"
 	@Test
 	void GET_addBidForm_shouldSucceedWith200() throws Exception {

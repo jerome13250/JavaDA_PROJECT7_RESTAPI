@@ -11,11 +11,14 @@ import java.util.Optional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
 
 import com.nnk.springboot.domain.BidList;
 import com.nnk.springboot.repositories.BidListRepository;
+import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 @SpringBootTest //integration test
+@Import(SpringWebIntegrationTestConfig.class)
 class BidTests {
 
 	@Autowired

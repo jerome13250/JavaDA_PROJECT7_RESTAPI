@@ -6,7 +6,7 @@
     project="Poseiden-skeleton" 
     file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-oauth2-client/5.4.6/spring-security-oauth2-client-5.4.6.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="473" y="409"/>    
+    <position height="-1" width="-1" x="220" y="273"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -17,7 +17,7 @@
     project="Poseiden-skeleton" 
     file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-core/5.4.6/spring-security-core-5.4.6.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="669" y="161"/>    
+    <position height="-1" width="-1" x="623" y="131"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -27,7 +27,7 @@
   <interface id="3" language="java" name="org.springframework.security.core.Authentication" project="Poseiden-skeleton" 
     file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-core/5.4.6/spring-security-core-5.4.6.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="321" y="174"/>    
+    <position height="-1" width="-1" x="299" y="87"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -36,7 +36,7 @@
   </interface>  
   <interface id="4" language="java" name="java.security.Principal" project="Poseiden-skeleton" 
     file="C:/Program Files/Java/jdk1.8.0_65/jre/lib/rt.jar" binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="90" y="103"/>    
+    <position height="-1" width="-1" x="81" y="81"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
@@ -47,28 +47,96 @@
     project="Poseiden-skeleton" 
     file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-core/5.4.6/spring-security-core-5.4.6.jar" 
     binary="true" corner="BOTTOM_RIGHT">    
-    <position height="-1" width="-1" x="915" y="423"/>    
+    <position height="-1" width="-1" x="1059" y="104"/>    
     <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
       sort-features="false" accessors="true" visibility="true">      
       <attributes public="false" package="false" protected="false" private="false" static="false"/>      
       <operations public="true" package="false" protected="false" private="false" static="false"/>    
     </display>  
   </class>  
-  <generalization id="6">    
+  <interface id="6" language="java" name="org.springframework.security.oauth2.core.user.OAuth2User" 
+    project="Poseiden-skeleton" 
+    file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-oauth2-core/5.4.6/spring-security-oauth2-core-5.4.6.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="219" y="381"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <class id="7" language="java" name="org.springframework.security.oauth2.core.user.DefaultOAuth2User" 
+    project="Poseiden-skeleton" 
+    file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-oauth2-core/5.4.6/spring-security-oauth2-core-5.4.6.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="223" y="525"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser" 
+    project="Poseiden-skeleton" 
+    file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-oauth2-core/5.4.6/spring-security-oauth2-core-5.4.6.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="655" y="581"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </class>  
+  <interface id="9" language="java" name="org.springframework.security.oauth2.core.oidc.user.OidcUser" 
+    project="Poseiden-skeleton" 
+    file="C:/Users/jerome/.m2/repository/org/springframework/security/spring-security-oauth2-core/5.4.6/spring-security-oauth2-core-5.4.6.jar" 
+    binary="true" corner="BOTTOM_RIGHT">    
+    <position height="-1" width="-1" x="559" y="391"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+      sort-features="false" accessors="true" visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="false"/>      
+      <operations public="true" package="false" protected="false" private="false" static="false"/>    
+    </display>  
+  </interface>  
+  <association id="10">    
+    <end type="SOURCE" refId="1" navigable="false">      
+      <attribute id="11" name="principal"/>      
+      <multiplicity id="12" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="13">    
+    <end type="SOURCE" refId="9"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="14">    
     <end type="SOURCE" refId="5"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <generalization id="7">    
-    <end type="SOURCE" refId="3"/>    
-    <end type="TARGET" refId="4"/>  
-  </generalization>  
-  <generalization id="8">    
+  <realization id="15">    
+    <end type="SOURCE" refId="2"/>    
+    <end type="TARGET" refId="3"/>  
+  </realization>  
+  <generalization id="16">    
     <end type="SOURCE" refId="1"/>    
     <end type="TARGET" refId="2"/>  
   </generalization>  
-  <realization id="9">    
-    <end type="SOURCE" refId="2"/>    
-    <end type="TARGET" refId="3"/>  
+  <generalization id="17">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="7"/>  
+  </generalization>  
+  <generalization id="18">    
+    <end type="SOURCE" refId="3"/>    
+    <end type="TARGET" refId="4"/>  
+  </generalization>  
+  <realization id="19">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="6"/>  
+  </realization>  
+  <realization id="20">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="9"/>  
   </realization>  
   <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
     sort-features="false" accessors="true" visibility="true">    
