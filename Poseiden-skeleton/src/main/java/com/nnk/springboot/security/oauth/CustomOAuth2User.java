@@ -9,11 +9,11 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
 /**
- * The objective of this class is to unify the access to the "username" in the different types of connection tokens, this allows an easier display of username in 
- * Thymeleaf with : sec:authentication="name" 
+ * The objective of this class is to modify the access to the "username" in the OAuth2AuthenticationToken, this allows an easier display of username in thymeleaf.
+ * With thymeleaf sec:authentication="name" :
  * <p>
  * - UsernamePasswordAuthenticationToken : by default the display is correct<br>
- * - OAuth2AuthenticationToken : by default it displays the gitHub id number, it's better to have the login name
+ * - OAuth2AuthenticationToken : by default it displays the gitHub id number, i want the login name
  * </p>
  * <p>
  * To achieve this, this class implements OAuth2User and also wraps an instance of OAuth2User, which will be passed by Spring OAuth2 
