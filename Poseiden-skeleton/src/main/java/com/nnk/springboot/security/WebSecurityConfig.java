@@ -57,12 +57,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.and()
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
     	.and()
-    	.oauth2Login()
+    	.oauth2Login() 
 			.userInfoEndpoint()
 				.userService(customOAuth2UserService)
 			.and()
 				.defaultSuccessUrl("/bidList/list")
-    	.and()
+				
+		.and()
     	.logout().logoutUrl("/app-logout").logoutSuccessUrl("/").permitAll()
          ;
     }

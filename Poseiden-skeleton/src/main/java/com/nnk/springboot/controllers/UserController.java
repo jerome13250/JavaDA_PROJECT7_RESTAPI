@@ -1,5 +1,6 @@
 package com.nnk.springboot.controllers;
 
+import java.security.Principal;
 import java.util.Optional;
 
 import javax.validation.Valid;
@@ -74,7 +75,7 @@ public class UserController {
     }
 
     @GetMapping("/user/update/{id}")
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String showUpdateForm(@PathVariable("id") Integer id, Model model, Principal principal) {
     	
     	logger.info("@GetMapping(\"/user/update/{id}\")");
     	

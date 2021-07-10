@@ -1,5 +1,7 @@
 package com.nnk.springboot.controllers;
 
+import java.security.Principal;
+
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
@@ -36,7 +38,7 @@ public class CustomErrorController implements ErrorController {
 	}
 	
 	@RequestMapping("/error") //note: if we use @GetMapping, errors that occured on POST do not display because "Request method 'POST' not supported" ad we get a blank page...
-	public ModelAndView handleError(HttpServletRequest request, Model model) {
+	public ModelAndView handleError(HttpServletRequest request, Model model, Principal principal) {
 		
 		logger.error("CustomErrorController: @RequestMapping(\"/error\")");
 		
