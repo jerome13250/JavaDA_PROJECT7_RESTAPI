@@ -19,7 +19,7 @@ import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
 
 @SpringBootTest //integration test
 @Import(SpringWebIntegrationTestConfig.class)
-class BidTests {
+class BidTestsIT {
 
 	@Autowired
 	private BidListRepository bidListRepository;

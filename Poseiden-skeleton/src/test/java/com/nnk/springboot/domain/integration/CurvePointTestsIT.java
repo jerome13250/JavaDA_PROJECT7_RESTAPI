@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Import(SpringWebIntegrationTestConfig.class)
-public class CurvePointTests {
+public class CurvePointTestsIT {
 
 	@Autowired
 	private CurvePointRepository curvePointRepository;

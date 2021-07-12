@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Import(SpringWebIntegrationTestConfig.class)
-public class RuleNameTests {
+public class RuleNameTestsIT {
 
 	@Autowired
 	private RuleNameRepository ruleNameRepository;

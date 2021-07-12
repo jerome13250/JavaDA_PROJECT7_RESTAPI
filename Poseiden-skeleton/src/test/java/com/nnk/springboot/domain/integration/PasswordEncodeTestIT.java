@@ -15,7 +15,7 @@ import com.nnk.springboot.testconfig.SpringWebIntegrationTestConfig;
  */
 @SpringBootTest
 @Import(SpringWebIntegrationTestConfig.class)
-public class PasswordEncodeTest {
+public class PasswordEncodeTestIT {
     @Test
     public void testPassword() {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();

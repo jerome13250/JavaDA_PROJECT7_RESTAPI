@@ -18,7 +18,7 @@ import java.util.Optional;
 
 @SpringBootTest
 @Import(SpringWebIntegrationTestConfig.class)
-public class RatingTests {
+public class RatingTestsIT {
 
 	@Autowired
 	private RatingRepository ratingRepository;
