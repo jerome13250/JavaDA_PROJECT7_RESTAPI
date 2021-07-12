@@ -1,17 +1,14 @@
 package com.nnk.springboot.testconfig;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
+import static java.util.Arrays.asList;
 
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import static java.util.Arrays.asList;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2User;
+import org.springframework.security.oauth2.core.user.OAuth2UserAuthority;
 
 
 /**
@@ -50,9 +47,4 @@ public class OAuthUtils {
         return new DefaultOAuth2User(asList(authority), attributes, "name");
     }
 
-    public static Authentication getOauth2AuthenticationTokenFor(OAuth2User principal) {
-        Collection<? extends GrantedAuthority> authorities = principal.getAuthorities();
-        String authorizedClientRegistrationId = "my-oauth-client";
-        return new OAuth2AuthenticationToken(principal, authorities, authorizedClientRegistrationId);
-    }
 }

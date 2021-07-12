@@ -19,7 +19,10 @@ import com.nnk.springboot.security.oauth.CustomOAuth2UserService;
 @TestConfiguration
 public class SpringWebUnitTestConfig {
 
-	//Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest
+	/**
+	 * Need to create a UserDetailsService in SpringSecurityWebTestConfig.class because @Service are not loaded by @WebMvcTest
+	 * @return a UserDetailsService ( InMemoryUserDetailsManager )
+	 */
 	@Bean
 	public UserDetailsService userDetailsService() {
 		User basicUser = new User("user@company.com", "password", Arrays.asList(
@@ -31,28 +34,28 @@ public class SpringWebUnitTestConfig {
 	}
 
 
-	//This is needed because when we add .oauth2Login() to WebSecurityConfig.configure, we can't execute any Controller tests (unit or integration) because of :
-	//NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' available
-	//When using @WebMvcTest the solution is to declare a mock ClientRegistrationRepository.
-	//Solution comes from this article : https://medium.com/@mark.hoogenboom/testing-a-spring-boot-application-secured-by-oauth-e40d1e9a6f60
-	//https://github.com/mark-hoogenboom/spring-boot-oauth-testing/blob/master/src/test/java/com/robinfinch/oslo/web/MyControllerTests.java
+	/**
+	 * This MockBean is needed because when we add .oauth2Login() to WebSecurityConfig.configure, we can't execute any Controller tests (unit or integration) because of :<br>
+	 * <p><i>NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' available</i></p>
+	 * For our unit test we are using @WebMvcTest, the solution is to declare a mock ClientRegistrationRepository.
+	 * Solution comes from this 
+	 * <a href ="https://medium.com/@mark.hoogenboom/testing-a-spring-boot-application-secured-by-oauth-e40d1e9a6f60">
+	 * medium article.
+	 * </a>
+	 * Original code on 
+	 * <a href ="https://github.com/mark-hoogenboom/spring-boot-oauth-testing/blob/master/src/test/java/com/robinfinch/oslo/web/MyControllerTests.java">
+	 * github
+	 * </a>
+	 */
 	@MockBean
 	private ClientRegistrationRepository clientRegistrationRepository;
 
-	//We have introduced a custom class in WebSecurityConfig : .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService)
-	//We need a mock to be able to create bean webSecurityConfig
+	/**
+	 * We have introduced a custom class in WebSecurityConfig : .oauth2Login().userInfoEndpoint().userService(customOAuth2UserService).
+	 * We need a mock to be able to create bean webSecurityConfig.
+	 */
 	@MockBean
 	private CustomOAuth2UserService customOAuth2UserService;
 
 
-	//TODO:
-	//When we add .oauth2Login() to WebSecurityConfig.configure, we can't execute any Controller tests (unit or integration) because of :
-	//NoSuchBeanDefinitionException: No qualifying bean of type 'org.springframework.security.oauth2.client.registration.ClientRegistrationRepository' available
-	//
-	/*
-	@Bean
-	public ClientRegistrationRepository clientRegistrationRepository() {
-
-	}
-	 */
 }

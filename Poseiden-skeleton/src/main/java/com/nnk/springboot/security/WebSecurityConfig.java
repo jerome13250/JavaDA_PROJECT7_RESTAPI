@@ -27,6 +27,9 @@ import com.nnk.springboot.security.oauth.CustomOAuth2UserService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     
+	/**
+	 * Needed to configure the "classic" username / password security with database.
+	 */
     @Autowired
     private UserDetailsService userDetailsService;
     
@@ -58,11 +61,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     	.formLogin().permitAll().defaultSuccessUrl("/bidList/list")
     	.and()
     	.oauth2Login() 
-			.userInfoEndpoint()
-				.userService(customOAuth2UserService)
+			.userInfoEndpoint().userService(customOAuth2UserService)
 			.and()
-				.defaultSuccessUrl("/bidList/list")
-				
+			.defaultSuccessUrl("/bidList/list")				
 		.and()
     	.logout().logoutUrl("/app-logout").logoutSuccessUrl("/").permitAll()
          ;

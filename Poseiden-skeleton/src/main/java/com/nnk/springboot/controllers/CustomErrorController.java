@@ -1,7 +1,5 @@
 package com.nnk.springboot.controllers;
 
-import java.security.Principal;
-
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
- * Error Controller bean that'll replace the default one.
+ * Error Controller bean that'll replace the default SpringBoot white-label error page.
  * 
  * <p>
  * Baeldung: springboot <a href="https://www.baeldung.com/spring-boot-custom-error-page"> custom error-page</a>
@@ -38,7 +36,7 @@ public class CustomErrorController implements ErrorController {
 	}
 	
 	@RequestMapping("/error") //note: if we use @GetMapping, errors that occured on POST do not display because "Request method 'POST' not supported" ad we get a blank page...
-	public ModelAndView handleError(HttpServletRequest request, Model model, Principal principal) {
+	public ModelAndView handleError(HttpServletRequest request, Model model) {
 		
 		logger.error("CustomErrorController: @RequestMapping(\"/error\")");
 		

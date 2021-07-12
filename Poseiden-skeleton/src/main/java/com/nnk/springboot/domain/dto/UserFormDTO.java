@@ -9,6 +9,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * This is the DTO version of the JPA Entity User.
+ * <p>Note that beside the well-known vulnerability :
+ * <a href="https://jira.sonarsource.com/browse/RSPEC-4684">
+ * Persistent entities should not be used as arguments of "@RequestMapping" methods.
+ * </a> that leads to use a DTO instead of directly an Entity
+ * ,in this user object we get a password from web form that must respect all our validations but we store in the Entity
+ *  an encrypted password that can not follow the same validations.
+ * For this reason, we absolutely need to split the Entity and DTO.
+ * @author jerome
+ *
+ */
 //Lombok
 @Getter
 @Setter

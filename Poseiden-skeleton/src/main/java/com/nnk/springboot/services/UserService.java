@@ -14,7 +14,7 @@ public interface UserService {
 
 	/**
 	 * Find and return a User by user name. Required by Spring Security.
-	 * @param username
+	 * @param username is the required user name.
 	 * @return User with required user name.
 	 */
 	User findByUsername(String username);

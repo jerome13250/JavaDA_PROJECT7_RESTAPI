@@ -13,8 +13,19 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class SpringConfig {
     
-	//This is for mapping Entity-DTO
-	//https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application
+	/**
+	 * This is needed for mapping Entity to DTO or DTO to Entity.
+	 * 
+	 * <p>
+	 * Source in this 
+	 * <a href="https://www.baeldung.com/entity-to-and-from-dto-for-a-java-spring-application">
+	 * Baeldung article
+	 * </a>
+	 * </p>
+	 * 
+	 * @return ModelMapper object
+	 */
+
 	@Bean
 	public ModelMapper modelMapper() {
 	    return new ModelMapper();

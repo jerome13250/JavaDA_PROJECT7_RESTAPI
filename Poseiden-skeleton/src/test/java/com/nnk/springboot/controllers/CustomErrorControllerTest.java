@@ -17,7 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 
 /**
- * We cannot performing a unit test if we expect to trigger the ErrorController by calling a method from another Controller. That would be an integration test.
+ * We cannot perform a unit test if we expect to trigger the ErrorController by calling a method from another Controller. That would be an integration test.
  * To unit test the ErrorController class, we just create an instance of the ErrorController class in a unit test and call the methods.
  * https://stackoverflow.com/questions/53889541/is-it-possible-to-use-an-errorcontroller-with-a-webmvctest/53889721#53889721
  * 
