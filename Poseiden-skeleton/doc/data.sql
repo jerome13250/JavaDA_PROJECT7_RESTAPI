@@ -1,5 +1,5 @@
-CREATE DATABASE IF NOT EXISTS `demo_test`;
-USE `demo_test`;
+CREATE DATABASE IF NOT EXISTS `demo`;
+USE `demo`;
 
 CREATE TABLE BidList (
   BidListId tinyint(4) NOT NULL AUTO_INCREMENT,
