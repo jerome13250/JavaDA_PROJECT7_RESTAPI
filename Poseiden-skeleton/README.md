@@ -18,8 +18,9 @@ This is a Spring Boot application for project number 7 of [Openclassrooms](https
 1. Create unit test and place in package com.nnk.springboot in folder test > java
 
 ### Security
-1. Create user service to load user from  database and place in package com.nnk.springboot.services
-2. Add configuration class and place in package com.nnk.springboot.config
+1. Create user service to load user from  database and place in package com.nnk.springboot.security.userdetails
+2. Implement Oauth2 login using GitHub.
+3. Add configuration class and place in package com.nnk.springboot.security
 
 
 ## Built With
@@ -28,6 +29,7 @@ This is a Spring Boot application for project number 7 of [Openclassrooms](https
 2. Java 8
 3. Thymeleaf
 4. Bootstrap v.4.3.1
+5. [Maven 3.8.1](https://maven.apache.org/download.cgi#downloading-apache-maven-3-8-1)
 
 <!-- GETTING STARTED -->
 ## Getting Started
@@ -41,6 +43,10 @@ Check that you have :
 * Java 8 installed
   ```sh
   java -version
+  ```
+* Maven 3.8.1 installed
+  ```sh
+  mvn -v
   ```
 
 ### Installation
@@ -60,14 +66,13 @@ Check that you have :
 4. Create the 2 databases in MySQL using the .sql files in JavaDA_PROJECT7_RESTAPI\Poseiden-skeleton\doc.
 	* data.sql will create the "demo" database.
 	* data_integration_test.sql will create the "demo_test" database that will be used for integration tests.
-5. Package the application (fat jar file) using [maven wrapper](https://github.com/takari/maven-wrapper) provided in the folder, it downloads automatically the correct Maven version if it's not found.
+5. Package the application (fat jar file) using maven.
    ```sh
-   mvnw package
+   mvn package
    ```
 6. Execute the jar file
    ```JS
    java -jar ./target/spring-boot-skeleton-0.0.1-SNAPSHOT.jar
    ```
-7. To access the application, open your browser, go to [http://localhost:8080](http://localhost:8080)
-
+7. To access the application, open your browser, go to [http://localhost:8080/user/add](http://localhost:8080/user/add) to create a new user with login/password to be able to access all the pages of the application.
 
