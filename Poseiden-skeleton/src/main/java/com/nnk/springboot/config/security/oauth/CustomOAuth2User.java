@@ -1,4 +1,4 @@
-package com.nnk.springboot.security.oauth;
+package com.nnk.springboot.config.security.oauth;
 
 import java.util.Collection;
 import java.util.Map;

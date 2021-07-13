@@ -1,4 +1,4 @@
-package com.nnk.springboot.security;
+package com.nnk.springboot.config.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,7 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
-import com.nnk.springboot.security.oauth.CustomOAuth2UserService;
+import com.nnk.springboot.config.security.oauth.CustomOAuth2UserService;
 
 /**
  * Spring Security configuration :  

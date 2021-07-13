@@ -1,4 +1,4 @@
-package com.nnk.springboot.security.oauth;
+package com.nnk.springboot.config.security.oauth;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
 import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;

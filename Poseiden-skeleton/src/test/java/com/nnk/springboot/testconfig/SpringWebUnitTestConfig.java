@@ -11,7 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 
-import com.nnk.springboot.security.oauth.CustomOAuth2UserService;
+import com.nnk.springboot.config.security.oauth.CustomOAuth2UserService;
 
 
 //Configuration classes annotated with @TestConfiguration are excluded from component scanning, therefore we need to import it
