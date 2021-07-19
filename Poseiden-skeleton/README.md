@@ -18,7 +18,7 @@ This is a Spring Boot application for project number 7 of [Openclassrooms](https
 1. Create unit test and place in package com.nnk.springboot in folder test > java
 
 ### Security
-1. Create user service to load user from  database and place in package com.nnk.springboot.security.userdetails
+1. Create user service to load user from  database and place in package com.nnk.springboot.config.security.userdetails
 2. Implement Oauth2 login using GitHub.
 3. Add configuration class and place in package com.nnk.springboot.security
 
